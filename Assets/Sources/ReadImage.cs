@@ -61,21 +61,6 @@ public class ReadImage : MonoBehaviour {
             displacementsBwd,
             outputStride: 16, maxPoseDetections: 15,
             scoreThreshold: 0.5f, nmsRadius: 20);
-
-
-
-        //Debug.Log(poses.Length);
-        foreach (var pose in poses)
-        {
-            //Debug.Log(pose.score);
-            //Debug.Log(pose.keypoints);
-            foreach (var keypoint in pose.keypoints)
-            {
-                //Debug.Log(keypoint.position);
-                //Debug.Log(keypoint.part);
-                //Debug.Log(keypoint.score);
-            }
-        }
     }
 
     public void OnRenderObject()
@@ -109,10 +94,14 @@ public class ReadImage : MonoBehaviour {
         GL.Color(Color.red);
         float minPoseConfidence = 0.5f;
 
+
         foreach (var pose in poses)
         {
-            DrawSkeleton(pose.keypoints,
-                minPoseConfidence, 0.02f);
+            if (pose.score >= minPoseConfidence)
+            {
+                DrawSkeleton(pose.keypoints,
+                    minPoseConfidence, 0.02f);
+            }
         }
 
         GL.End();
@@ -142,7 +131,7 @@ public class ReadImage : MonoBehaviour {
         PoseNet.Keypoint[] keypoints, float minConfidence) {
 
         return posenet.connectedPartIndeces.Where(x =>
-           EitherPointDoesntMeetConfidence(keypoints[x.Item1].score, keypoints[x.Item2].score, minConfidence))
+           !EitherPointDoesntMeetConfidence(keypoints[x.Item1].score, keypoints[x.Item2].score, minConfidence))
            .Select(x => new Tuple<PoseNet.Keypoint, PoseNet.Keypoint>(keypoints[x.Item1], keypoints[x.Item2])).ToArray();
 
     }

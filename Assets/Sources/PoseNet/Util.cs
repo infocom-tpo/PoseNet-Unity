@@ -24,7 +24,6 @@ public partial class PoseNet
 
     Vector2 GetImageCoords(
         Part part,int outputStride,float[,,,] offsets) {
-
         var vec = GetOffsetPoint(part.heatmapY, part.heatmapX,
                                  part.id, offsets);
         return new Vector2(

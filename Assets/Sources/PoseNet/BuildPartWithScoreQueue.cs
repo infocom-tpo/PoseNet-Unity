@@ -50,7 +50,7 @@ public partial class PoseNet {
                 for (int keypointId = 0; keypointId < numKeypoints; ++keypointId)
                 {
                     float score = scores[0, heatmapY, heatmapX, keypointId];
-
+                    
                     // Only consider parts with score greater or equal to threshold as
                     // root candidates.
                     if (score < scoreThreshold)
@@ -66,7 +66,6 @@ public partial class PoseNet {
                         queue.Push(score, new PartWithScore(score,
                             new Part(heatmapX, heatmapY, keypointId)
                         ));
-
                     }
                 }
             }

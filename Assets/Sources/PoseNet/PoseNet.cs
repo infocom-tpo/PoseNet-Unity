@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 public partial class PoseNet
 {
     const int kLocalMaximumRadius = 1;
-    const int NUM_KEYPOINTS = 1;
+    public int NUM_KEYPOINTS = 0;
     public String[] partNames;
     public Dictionary<String, int> partIds;
     public Tuple<string, string>[] connectedPartNames;
@@ -25,6 +25,8 @@ public partial class PoseNet
             "rightShoulder", "leftElbow", "rightElbow", "leftWrist", "rightWrist",
             "leftHip", "rightHip", "leftKnee", "rightKnee", "leftAnkle", "rightAnkle"
         };
+
+        NUM_KEYPOINTS = partNames.Length;
 
         partIds = partNames
             .Select((k, v) => new { k, v })
