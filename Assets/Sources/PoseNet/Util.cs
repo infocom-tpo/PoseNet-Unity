@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Linq;
+using System;
 
 public partial class PoseNet
 {
@@ -32,8 +33,45 @@ public partial class PoseNet
         );
     }
 
+    public Tuple<Keypoint, Keypoint>[] GetAdjacentKeyPoints(
+           Keypoint[] keypoints, float minConfidence)
+    {
+
+        return connectedPartIndeces
+            .Where(x => !EitherPointDoesntMeetConfidence(
+                keypoints[x.Item1].score, keypoints[x.Item2].score, minConfidence))
+           .Select(x => new Tuple<Keypoint, Keypoint>(keypoints[x.Item1], keypoints[x.Item2])).ToArray();
+
+    }
+
+    bool EitherPointDoesntMeetConfidence(
+        float a, float b, float minConfidence)
+    {
+        return (a < minConfidence || b < minConfidence);
+    }
+
+    public static double mean(float[,,,] tensor)
+    {
+        double sum = 0f;
+        var x = tensor.GetLength(1);
+        var y = tensor.GetLength(2);
+        var z = tensor.GetLength(3);
+        for (int i = 0; i < x; i++)
+        {
+            for (int j = 0; j < y; j++)
+            {
+                for (int k = 0; k < z; k++)
+                {
+                    sum += tensor[0, i, j, k];
+                }
+            }
+        }
+        var mean = sum / (x * y * z);
+        return mean;
+    }
+
     //Pose ScalePose(Pose pose, int scale) {
-        
+
     //    var s = (float)scale;
 
     //    return new Pose(
