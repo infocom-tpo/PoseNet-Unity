@@ -27,4 +27,4 @@
 
 ## License
 
-PoseNet-CoreML is available under the MIT license. See the LICENSE file for more info.
+PoseNet-Unity is available under the MIT license. See the LICENSE file for more info.
