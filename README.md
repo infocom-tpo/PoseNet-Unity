@@ -1,9 +1,30 @@
 
+# PoseNet-Unity
+
+[PoseNet](https://github.com/tensorflow/tfjs-models/tree/master/posenet) Based Unity Project
+
+![result](images/unity_result.png)
+
+## Environment
+
+* Unity 2018.1
+* DotNet 4.6
+
 ## Installation
 
 * Using TensorFlowSharp 1.7
-```
-https://github.com/Unity-Technologies/ml-agents/tree/develop
+  * [Using TensorFlowSharp in Unity (Experimental)](https://github.com/Unity-Technologies/ml-agents/blob/develop/docs/Using-TensorFlow-Sharp-in-Unity.md)
 
-https://s3.amazonaws.com/unity-ml-agents/0.4/TFSharpPlugin.unitypackage
-```
+  * Get: https://s3.amazonaws.com/unity-ml-agents/0.4/TFSharpPlugin.unitypackage
+
+## Dependencies
+
+* [ml-agents](https://github.com/Unity-Technologies/ml-agents/)
+
+## Development By Infocom TPO
+
+[Infocom TPO](https://lab.infocom.co.jp/)
+
+## License
+
+PoseNet-CoreML is available under the MIT license. See the LICENSE file for more info.
