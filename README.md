@@ -21,6 +21,10 @@
 
 * [ml-agents](https://github.com/Unity-Technologies/ml-agents/)
 
+# Blogs
+
+* [PoseNetをマルチプラットフォームで実装してみた](https://qiita.com/otmb/items/561a62d3413295cc744e)
+
 ## Development By Infocom TPO
 
 [Infocom TPO](https://lab.infocom.co.jp/)
