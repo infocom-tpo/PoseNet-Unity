@@ -37,7 +37,7 @@ public partial class PoseNet
            Keypoint[] keypoints, float minConfidence)
     {
 
-        return connectedPartIndeces
+        return connectedPartIndices
             .Where(x => !EitherPointDoesntMeetConfidence(
                 keypoints[x.Item1].score, keypoints[x.Item2].score, minConfidence))
            .Select(x => new Tuple<Keypoint, Keypoint>(keypoints[x.Item1], keypoints[x.Item2])).ToArray();

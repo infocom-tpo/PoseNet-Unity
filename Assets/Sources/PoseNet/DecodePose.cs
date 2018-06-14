@@ -3,17 +3,17 @@
 public partial class PoseNet
 {
 
-    Vector2 GetDisplacement(int i, Vector2Int point, float[,,,] displacements) {
+    Vector2 GetDisplacement(int edgeId, Vector2Int point, float[,,,] displacements) {
 
         var numEdges = (int)(displacements.GetLength(3) / 2);
 
         return new Vector2(
-            displacements[0, point.y, point.x, numEdges + i],
-            displacements[0, point.y, point.x, i]
+            displacements[0, point.y, point.x, numEdges + edgeId],
+            displacements[0, point.y, point.x, edgeId]
         );
     }
 
-    Vector2Int Decode(
+    Vector2Int GetStridedIndexNearPoint(
         Vector2 point, int outputStride, int height,
         int width) {
 
@@ -39,29 +39,30 @@ public partial class PoseNet
         var width = scores.GetLength(2);
 
         // Nearest neighbor interpolation for the source->target displacements.
-        var sourceKeypointIndeces =
-            Decode(sourceKeypoint.position, outputStride, height, width);
+        var sourceKeypointIndices = GetStridedIndexNearPoint(
+            sourceKeypoint.position, outputStride, height, width);
 
         var displacement =
-            GetDisplacement(edgeId, sourceKeypointIndeces, displacements);
+            GetDisplacement(edgeId, sourceKeypointIndices, displacements);
 
         var displacedPoint = AddVectors(sourceKeypoint.position, displacement);
 
-        var displacedPointIndeces =
-            Decode(displacedPoint, outputStride, height, width);
+        var displacedPointIndices =
+            GetStridedIndexNearPoint(displacedPoint, outputStride, height, width);
 
         var offsetPoint = GetOffsetPoint(
-                displacedPointIndeces.y, displacedPointIndeces.x, targetKeypointId,
+                displacedPointIndices.y, displacedPointIndices.x, targetKeypointId,
                 offsets);
 
-        var targetKeypoint =
-            AddVectors(displacedPoint, new Vector2(x: offsetPoint.x, y: offsetPoint.y));
-
-        var targetKeypointIndeces =
-            Decode(targetKeypoint, outputStride, height, width);
-
         var score = scores[0,
-            targetKeypointIndeces.y, targetKeypointIndeces.x, targetKeypointId];
+            displacedPointIndices.y, displacedPointIndices.x, targetKeypointId];
+
+        var targetKeypoint =
+            AddVectors(
+                new Vector2(
+                    x: displacedPointIndices.x * outputStride,
+                    y: displacedPointIndices.y * outputStride)
+                , new Vector2(x: offsetPoint.x, y: offsetPoint.y));
 
         return new Keypoint(score, targetKeypoint, partNames[targetKeypointId]);
     }

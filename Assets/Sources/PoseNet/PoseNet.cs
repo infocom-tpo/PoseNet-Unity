@@ -12,7 +12,7 @@ public partial class PoseNet
     public String[] partNames;
     public Dictionary<String, int> partIds;
     public Tuple<string, string>[] connectedPartNames;
-    public Tuple<int, int>[] connectedPartIndeces;
+    public Tuple<int, int>[] connectedPartIndices;
     public Tuple<string, string>[] poseChain;
     public Tuple<int, int>[] parentChildrenTuples;
     public int[] parentToChildEdges;
@@ -41,7 +41,7 @@ public partial class PoseNet
             Tuple.Create("leftShoulder", "rightShoulder"), Tuple.Create("leftHip", "rightHip")
         };
 
-        connectedPartIndeces = connectedPartNames.Select(x =>
+        connectedPartIndices = connectedPartNames.Select(x =>
           new Tuple<int, int>(partIds[x.Item1], partIds[x.Item2])
         ).ToArray();
 
